@@ -3,13 +3,14 @@ import { icon } from './lib/icons.js';
 import { money, escapeHtml as e, dateKey, timeLabel, longDate, shiftDate, periodRange, statusLabels, paymentLabels, mayCancel, icsEvent, googleCalendarUrl } from './lib/domain.js';
 import { configured, configurationError, supabase, bootstrap, identity, rpc, friendly, signIn, settingsWithSetup } from './services/api.js';
 import { professionalSetupIssues } from './lib/booking-setup.js';
+import { authModeFromLocationHash } from './lib/auth-link.js';
 import { LOCAL_API_PORT } from '../config/local-development.js';
 
 import { guestRequest, publicConfiguration, guestAttempt, clearGuestAttempt, reservationToken, mountCaptcha, removeCaptcha, resetCaptcha } from './services/guest.js';
 
 const root = document.querySelector('#app');
 const modal = document.querySelector('#modal');
-const state = { data: null, me: null, path: location.pathname, booking: { step: 1, date: dateKey(), professional: '', service: '', slot: null }, slots: [], appointments: [], sales: [], breaks: [], notifications: [], authMode: 'login', date: dateKey(), period: 'week', from: periodRange('week')[0], to: periodRange('week')[1] };
+const state = { data: null, me: null, path: location.pathname, booking: { step: 1, date: dateKey(), professional: '', service: '', slot: null }, slots: [], appointments: [], sales: [], breaks: [], notifications: [], authMode: authModeFromLocationHash(location.hash), date: dateKey(), period: 'week', from: periodRange('week')[0], to: periodRange('week')[1] };
 state.publicConfig = { ready: false };
 state.contact = { name: '', phone: '', email: '' };
 let renderVersion = 0;
@@ -236,7 +237,11 @@ document.addEventListener('submit', async (event) => {
     if (form.id === 'slots-form') { state.booking.date = value('date'); state.booking.professional = value('professional'); await loadSlots(); await render(); }
     else if (form.id === 'auth-form') {
       if (state.authMode === 'recover') { const { error } = await supabase.auth.resetPasswordForEmail(value('email'), { redirectTo: `${location.origin}/ingresar` }); if (error) throw error; toast('Si el correo tiene una cuenta, recibirás instrucciones para recuperar el acceso.'); }
-      else if (state.authMode === 'reset') { const { error } = await supabase.auth.updateUser({ password: value('password') }); if (error) throw error; toast('Contraseña actualizada.'); state.authMode = 'login'; navigate('/ingresar'); }
+      else if (state.authMode === 'reset') {
+        const { error } = await supabase.auth.updateUser({ password: value('password') }); if (error) throw error;
+        state.me = await identity(); if (!isStaff()) { await supabase.auth.signOut(); throw new Error('NOT_AUTHORIZED'); }
+        toast('Contraseña actualizada.'); state.authMode = 'login'; navigate('/panel/agenda');
+      }
       else {
         await signIn(value('email'), value('password'));
         try { state.me = await identity(); if (!isStaff()) throw new Error('NOT_AUTHORIZED'); } catch (error) { await supabase.auth.signOut(); throw error; }
