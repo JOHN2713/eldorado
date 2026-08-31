@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { dateKey, periodRange, mayCancel, escapeHtml, icsEvent } from '../src/lib/domain.js';
+import { dateKey, periodRange, mayCancel, escapeHtml, icsEvent, googleCalendarUrl } from '../src/lib/domain.js';
 
 test('Reportes usan el día de Quito incluso al cruzar medianoche UTC', () => {
   assert.equal(dateKey(new Date('2026-09-01T03:00:00Z')), '2026-08-31');
@@ -30,4 +30,13 @@ test('ICS conserva UTC, escapa campos y pliega Unicode sin crear propiedades nue
   assert.match(ics.replace(/\r\n /g, ''), /LOCATION:Quito\\nBEGIN:VEVENT/);
   for (const line of ics.split('\r\n')) assert.ok(Buffer.byteLength(line, 'utf8') <= 75);
   assert.ok(!ics.includes('\uFFFD'));
+});
+test('Google Calendar recibe un evento prellenado sin OAuth ni datos inventados', () => {
+  const url = new URL(googleCalendarUrl({ starts_at: '2026-09-01T15:00:00Z', ends_at: '2026-09-01T15:45:00Z', service_name: 'Corte normal' }, { name: 'El Dorado Barbería', address: 'Zámbiza, calle Quito', timezone: 'America/Guayaquil' }));
+  assert.equal(url.origin, 'https://calendar.google.com');
+  assert.equal(url.searchParams.get('action'), 'TEMPLATE');
+  assert.equal(url.searchParams.get('dates'), '20260901T150000Z/20260901T154500Z');
+  assert.equal(url.searchParams.get('stz'), 'America/Guayaquil');
+  assert.equal(url.searchParams.get('text'), 'El Dorado Barbería — Corte normal');
+  assert.equal(url.searchParams.get('location'), 'Zámbiza, calle Quito');
 });

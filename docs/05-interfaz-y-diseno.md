@@ -34,7 +34,7 @@ Mostrar precio en USD y rango estimado antes de confirmar, diferenciándolo del 
 
 Mostrar en resumen y confirmación **“Por favor, estar 5 minutos antes de su reserva.”**, “Puedes cancelar hasta 30 minutos antes” y “La reserva se anula por inasistencia después de 5 minutos de tolerancia”. La hora de cita no cambia por la recomendación. “Cancelar” requiere nueva validación del servidor; un reloj del teléfono no decide si aún se permite.
 
-Después de confirmar, ofrecer “Conectar Google Calendar y sincronizar esta cita”, sin exigirlo para reservar. Mostrar pendiente/sincronizada/error real y acción para desconectar o reautorizar. Las operaciones Google no deben bloquear el uso de la cita. Diseño detallado en [Google Calendar](12-google-calendar.md).
+Después de confirmar, el móvil abre directamente un evento prellenado en Google Calendar; en escritorio se ofrecen ese enlace y una descarga `.ics`. Es una copia de una sola vez y no bloquea la cita. La sincronización automática con OAuth, actualización y retiro del evento sigue como ampliación pendiente. Diseño detallado en [Google Calendar](12-google-calendar.md).
 
 ## Pantallas de operación
 

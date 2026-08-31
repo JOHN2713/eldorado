@@ -29,7 +29,7 @@ Fuente de verdad de acuerdos. Última actualización: 31 de agosto de 2026. Las 
 | C21 | Espera de 5 minutos tras hora reservada; después anular si no llegó | Confirmado; propuesta técnica de registrar llegada y estado `no_show` sin borrar historial |
 | C22 | Recomendación: “Por favor, estar 5 minutos antes de su reserva.” | Confirmado; mostrar al reservar sin adelantar hora real |
 | C23 | Administrador o peluquero pueden colocar descansos por almuerzo/imprevistos | Confirmado; propuesta de peluquero sobre su agenda, admin sobre cualquiera |
-| C24 | Permitir al cliente sincronizar su turno con Google Calendar | Solicitado; viable con autorización OAuth opcional por reserva, aún no implementado |
+| C24 | Permitir al cliente registrar su turno en Google Calendar | Copia directa prellenada implementada; sincronización automática OAuth aún pendiente |
 | C25 | Clientes reservan libremente sin cuenta, con nombre, celular y correo obligatorios; cuentas solo para administrador y dos peluqueros | Confirmado; reemplaza la propuesta de Auth para clientes |
 | C26 | Los avisos de actualización deben desaparecer después de 10 segundos | Confirmado para avisos de operaciones; no cambia la anticipación de 10 minutos ni la vigencia de los recordatorios de citas |
 
@@ -54,7 +54,7 @@ Responsable de respuestas de negocio: dueño, coordinado por el usuario. Respons
 | D13 | Marca | Nombre y cartel recibidos; falta logotipo original, textos finales y validar códigos exactos de paleta | Apariencia final. |
 | D14 | Infraestructura y responsables | GitHub, Supabase y Railway conectados; dominio público generado. Faltan responsables operativos y validación de consumo | Operación, presupuesto y recuperación. |
 | D15 | Entregas y ampliaciones | MVP por fases, un local; ampliaciones fuera de alcance | Planificación y aceptación. |
-| D16 | Google Calendar del cliente | Requisito aceptado en alcance; propuesta optativa app → Google, OAuth y cambios/cancelaciones. Configuración, calendario destino y permisos por completar | Integración y consentimiento. |
+| D16 | Google Calendar del cliente | Enlace directo de copia implementado, sin aviso intermedio en móvil; OAuth para cambios/cancelaciones sigue pendiente | Integración y consentimiento. |
 
 **Parcialmente resueltos:** D01–D05, D07, D08, D11, D13, D14 y D16, con los hechos confirmados arriba. D09 resuelto en acceso y datos exigidos; recuperación/retención por completar. D06, D10, D12 y D15 siguen pendientes. No volver a preguntar datos ya recibidos: nombre/dirección, USD, precios/rangos, horario, equipo, destinatarios, canal, pagos, cancelación, tolerancia, descansos o URL. Preguntar solo los detalles restantes.
 
@@ -155,6 +155,7 @@ Estas decisiones pueden desarrollarse como base técnica, revisando su compatibi
 | 2026-08-31 | Publicada la rama `main` en GitHub con control de secretos y verificación automática | Autorización del usuario; Railway queda pendiente |
 | 2026-08-31 | Corregida la validación del origen público para normalizar la URL configurada por Railway | Diagnóstico del `403` en producción; `PUBLIC_APP_ORIGIN` tenía una barra final |
 | 2026-08-31 | Verificado despliegue Railway: `/health` correcto y consulta real de horarios con respuesta `200` | Publicación confirmada por el usuario y comprobación del dominio público |
+| 2026-08-31 | En móvil, Calendario abre directamente un evento prellenado; corregido autozoom de campos y ajustes responsive | Solicitud del usuario y revisión móvil |
 
 ## Registro para próximos acuerdos
 

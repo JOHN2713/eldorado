@@ -1,6 +1,6 @@
 # 12 — Google Calendar del cliente
 
-Estado: requisito solicitado el 31 de agosto de 2026; diseño propuesto, todavía no implementado. No se ha conectado ninguna cuenta ni creado eventos. La versión local 0.1.0 incluye únicamente una descarga `.ics` con advertencia explícita; no sustituye esta integración.
+Estado: disponible un enlace de Google Calendar con el evento prellenado y descarga `.ics`; ambos crean una copia de una sola vez. En móvil, el botón abre directamente Google Calendar sin aviso intermedio. La sincronización OAuth que actualiza o retira eventos todavía no está implementada.
 
 ## Objetivo y viabilidad
 
@@ -59,9 +59,9 @@ Google ofrece operaciones de [actualización](https://developers.google.com/work
 
 ## Alternativa limitada si OAuth no está listo
 
-Se puede ofrecer una exportación `.ics` para importar el turno, identificándola como **“Descargar evento”**, no “Sincronización automática”. Una importación no mantiene los cambios posteriores; Google distingue importar de sincronizar en su [ayuda de importación](https://support.google.com/calendar/answer/37118?hl=en-GB). Validar importación en los dispositivos objetivo y evitar prometer que el teléfono importará el archivo de la misma manera que la web.
+La aplicación ofrece un enlace oficial de evento prellenado para Google Calendar y una exportación `.ics` para otros calendarios. Ninguna opción mantiene los cambios posteriores; se presentan como una copia y no como sincronización automática. Google documenta el [enlace para agregar un evento](https://developers.google.com/workspace/calendar/api/concepts/inviting-attendees-to-events) y distingue importar de sincronizar en su [ayuda de importación](https://support.google.com/calendar/answer/37118?hl=en-GB).
 
-Esta alternativa no da por terminada la sincronización solicitada. No sustituirla silenciosamente por un enlace o descarga; mantener la integración OAuth como trabajo pendiente hasta implementarla y verificarla.
+Esta alternativa no da por terminada la sincronización solicitada. Mantener la integración OAuth como trabajo pendiente hasta implementarla y verificarla.
 
 ## Entregables y aceptación
 

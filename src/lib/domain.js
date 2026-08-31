@@ -22,10 +22,22 @@ export function periodRange(period, date = dateKey()) {
   return [date, date];
 }
 export const mayCancel = (appointment, now = Date.now()) => appointment.status === 'confirmed' && now <= new Date(appointment.cancellation_deadline).getTime();
+const calendarStamp = (value) => new Date(value).toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+export function googleCalendarUrl(appointment, business) {
+  const params = new URLSearchParams({
+    action: 'TEMPLATE',
+    dates: `${calendarStamp(appointment.starts_at)}/${calendarStamp(appointment.ends_at)}`,
+    stz: business.timezone,
+    etz: business.timezone,
+    text: `${business.name} — ${appointment.service_name}`,
+    location: business.address,
+    details: 'Por favor, estar 5 minutos antes de su reserva. Puedes cancelar hasta 30 minutos antes desde la aplicación. Este evento es una copia y no se actualiza automáticamente.',
+  });
+  return `https://calendar.google.com/calendar/r/eventedit?${params}`;
+}
 export function icsEvent(appointment, business) {
   const clean = (s) => String(s ?? '').replace(/\\/g, '\\\\').replace(/\r\n|\r|\n/g, '\\n').replace(/;/g, '\\;').replace(/,/g, '\\,');
-  const stamp = (d) => new Date(d).toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
-  const lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//El Dorado//Agenda//ES', 'CALSCALE:GREGORIAN', 'BEGIN:VEVENT', `UID:${appointment.id}@eldorado.local`, `DTSTAMP:${stamp(new Date())}`, `DTSTART:${stamp(appointment.starts_at)}`, `DTEND:${stamp(appointment.ends_at)}`, `SUMMARY:${clean(`${business.name} — ${appointment.service_name}`)}`, `LOCATION:${clean(business.address)}`, `DESCRIPTION:${clean('Por favor, estar 5 minutos antes de su reserva. Puedes cancelar hasta 30 minutos antes desde la aplicación. Esta copia no se actualiza automáticamente.')}`, 'END:VEVENT', 'END:VCALENDAR'];
+  const lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//El Dorado//Agenda//ES', 'CALSCALE:GREGORIAN', 'BEGIN:VEVENT', `UID:${appointment.id}@eldorado.local`, `DTSTAMP:${calendarStamp(new Date())}`, `DTSTART:${calendarStamp(appointment.starts_at)}`, `DTEND:${calendarStamp(appointment.ends_at)}`, `SUMMARY:${clean(`${business.name} — ${appointment.service_name}`)}`, `LOCATION:${clean(business.address)}`, `DESCRIPTION:${clean('Por favor, estar 5 minutos antes de su reserva. Puedes cancelar hasta 30 minutos antes desde la aplicación. Esta copia no se actualiza automáticamente.')}`, 'END:VEVENT', 'END:VCALENDAR'];
   // RFC 5545: fold by UTF-8 octets without splitting a code point.
   return lines.map((line) => {
     let part = '', out = '', bytes = 0;
