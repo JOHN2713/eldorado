@@ -33,7 +33,7 @@ order by tablename;
 
 `booking_enabled` debe ser `false`. Es normal que la lista pública de peluqueros esté vacía al principio. No desactivar RLS para resolver un error. Mantener `private` fuera de los esquemas expuestos por la Data API.
 
-## 3. Crear las tres cuentas del personal
+## 3. Crear las cuentas iniciales del personal
 
 En **Authentication → Users**, crear las cuentas reales del administrador y de los dos peluqueros. Usar tres correos distintos, contraseñas seguras y cuentas verificadas. Cada persona debe conservar su propio acceso; no compartir la cuenta administrativa.
 
@@ -66,11 +66,20 @@ barber_one_services uuid[] := array[
 
 Completar también el segundo arreglo. Ejecutar el archivo completo una vez. No usar este script como herramienta de sustitución de empleados cuando ya existan citas; los cambios posteriores requieren revisar asignaciones y notificaciones.
 
-El script asigna roles mediante SQL controlado. No hay registro público de cuentas: el cliente reserva sin Auth y las tres cuentas del equipo se crean administrativamente.
+El script asigna los roles iniciales mediante SQL controlado. No hay registro público de cuentas: el cliente reserva sin Auth y todas las cuentas del equipo se crean administrativamente.
+
+Para agregar posteriormente otro administrador, mantener el dominio `/ingresar` en las URLs permitidas de Supabase y ejecutar desde un entorno confiable:
+
+```powershell
+$env:ADMIN_REDIRECT_ORIGIN='https://DOMINIO_PUBLICO'
+.\scripts\npm-local.ps1 run staff:invite-admin -- NUEVO_ADMIN@example.com --invite
+```
+
+El script usa la clave privada de `.env.server.local`, envía una invitación, rechaza usuarios vinculados como peluqueros y activa `user_roles.role='admin'`. No guardar el correo real en Git. La persona invitada abre el enlace, establece su contraseña y entra directamente al panel. Si la invitación vence, se puede ejecutar nuevamente solo después de revisar el usuario en Authentication → Users.
 
 ## 4. Configurar autenticación
 
-Supabase Auth se usa exclusivamente para el administrador y los dos peluqueros, con correo y contraseña. Los clientes no crean cuentas ni reciben correo de verificación para reservar.
+Supabase Auth se usa exclusivamente para los administradores y los dos peluqueros, con correo y contraseña. Los clientes no crean cuentas ni reciben correo de verificación para reservar.
 
 - Desactivar **Allow new users to sign up** y los inicios de sesión anónimos; mantener Email para ingresar con las cuentas del personal ya creadas. Ver [configuración de Auth](https://supabase.com/docs/guides/auth/general-configuration).
 - Configurar **Site URL** local: `http://127.0.0.1:5173`.
@@ -181,7 +190,7 @@ No exponer `cron` ni `private` por la API. Este trabajo no envía los recordator
 
 ## 9. Verificación antes del piloto
 
-- Reservar sin cuenta, completando nombre/celular/correo y CAPTCHA. Comprobar que Auth sigue teniendo solo las tres cuentas del personal.
+- Reservar sin cuenta, completando nombre/celular/correo y CAPTCHA. Comprobar que Auth contiene únicamente las cuentas autorizadas del personal.
 - Intentar el mismo horario y peluquero desde dos navegadores sin sesión: solo una reserva debe confirmarse. Probar el enlace privado y comprobar que un correo/celular no permiten consultar citas.
 - Probar descansos, límite de cancelación y llegada/ausencia en horarios controlados.
 - Revisar un recordatorio 10 minutos antes con las sesiones del administrador y del peluquero asignado; el otro peluquero no debe recibirlo.

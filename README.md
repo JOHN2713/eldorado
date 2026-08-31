@@ -6,7 +6,7 @@
 
 Este proyecto permite reservar turnos, recordar citas, registrar servicios realizados con o sin reserva y consultar las ventas de la peluquería. La interfaz, el servidor y las operaciones SQL están implementados. El proyecto Supabase del negocio ya fue configurado y la aplicación está publicada en [Railway](https://eldorado-production-d510.up.railway.app). Se verificaron `/health` y la consulta pública de horarios; falta comprobar una reserva completa con CAPTCHA.
 
-**Nuevo flujo confirmado:** los clientes reservan sin cuenta, indicando nombre, celular y correo. Solo el administrador y los dos peluqueros usan Supabase Auth. La gestión del cliente es por enlace privado de cada reserva. Ver [15 — Reservas sin cuenta](docs/15-reservas-sin-cuenta.md), especialmente si ya se aplicaron las primeras migraciones.
+**Nuevo flujo confirmado:** los clientes reservan sin cuenta, indicando nombre, celular y correo. Solo los dos administradores y los dos peluqueros usan Supabase Auth. La gestión del cliente es por enlace privado de cada reserva. Ver [15 — Reservas sin cuenta](docs/15-reservas-sin-cuenta.md), especialmente si ya se aplicaron las primeras migraciones.
 
 ## Ejecutar la primera versión
 
@@ -55,7 +55,7 @@ npm start
 
 ## Datos recibidos el 31 de agosto
 
-**El Dorado Barbería**, en **Zámbiza, calle Quito**, abre de **09:00 a 21:00, de lunes a domingo**; este horario sustituye al impreso en el cartel. Trabajan **dos peluqueros y un administrador**. Duraciones estimadas confirmadas: normal **30–45 min**, diseño **40–50 min**, con barba **40–50 min** y completo **50–60 min**. Se propone bloquear los máximos: **45/50/50/60 min**, más el margen adicional que se defina.
+**El Dorado Barbería**, en **Zámbiza, calle Quito**, abre de **09:00 a 21:00, de lunes a domingo**; este horario sustituye al impreso en el cartel. Trabajan **dos peluqueros y dos administradores**. Duraciones estimadas confirmadas: normal **30–45 min**, diseño **40–50 min**, con barba **40–50 min** y completo **50–60 min**. Se propone bloquear los máximos: **45/50/50/60 min**, más el margen adicional que se defina.
 
 Precios en **USD**: corte normal **$5.00**, con diseño **$6.00**, con barba **$6.50** y completo **$8.00**. Se paga directamente en el establecimiento mediante **efectivo, transferencia o Deuna**; la web solo registra el cobro. Al reservar mostrar: **“Por favor, estar 5 minutos antes de su reserva.”** Ver [ficha del negocio](docs/11-ficha-del-negocio.md) para reglas y detalles pendientes.
 

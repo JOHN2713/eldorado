@@ -56,7 +56,7 @@ Los documentos 01–12 describen el alcance objetivo. Para ejecutar código, los
 
 - Compilación de producción con Vite y Node 24.19.
 - Servidor Express verificado por HTTP: `/health`, recargas de rutas SPA, recursos inexistentes 404 y cabeceras. Se ejecutó fuera del aislamiento de red local después de que este interfiriera con las solicitudes de prueba.
-- 18 pruebas JavaScript/HTTP: fechas, cancelación, escape, ICS y enlace Google Calendar, contacto, tokens, validación CAPTCHA, normalización y rechazo de orígenes, fallos cerrados, límites y contrato del gateway. Adaptadores externos simulados.
+- 19 pruebas JavaScript/HTTP: invitación y recuperación de acceso, fechas, cancelación, escape, ICS y enlace Google Calendar, contacto, tokens, validación CAPTCHA, normalización y rechazo de orígenes, fallos cerrados, límites y contrato del gateway. Adaptadores externos simulados.
 - Migraciones ejecutadas en PostgreSQL 14.15 local, dentro de una instancia temporal aislada. 20 comprobaciones SQL aprobadas (14 de la base anterior y 6 del nuevo flujo sin cuenta): permisos/RLS, concurrencia de reservas, intervalos, idempotencia, descansos, cancelación, reprogramación, atención sin cita, ausencia, destinatarios y reclamación de avisos, cobros y reportes.
 - Navegación de vista previa inspeccionada en el navegador: reservas, agenda y ventas; selección de servicios y bloqueo de guardado sin Supabase. Revisiones de ancho móvil y escritorio sin desbordamiento general; consola sin errores en esos recorridos.
 

@@ -1,6 +1,6 @@
 # 15 — Reservas sin cuenta de cliente (v0.2)
 
-Decisión confirmada por el usuario: **solo el administrador y los dos peluqueros tienen cuenta**. El cliente reserva libremente con **nombre, celular y correo obligatorios**, sin contraseña, inscripción en Auth ni usuario Auth anónimo. Este documento sustituye la propuesta anterior de acceso de clientes.
+Decisión confirmada por el usuario: **solo los dos administradores y los dos peluqueros tienen cuenta**. El cliente reserva libremente con **nombre, celular y correo obligatorios**, sin contraseña, inscripción en Auth ni usuario Auth anónimo. Este documento sustituye la propuesta anterior de acceso de clientes.
 
 ## Qué cambió
 
@@ -40,7 +40,7 @@ La migración añade correo, acceso privado y límites; restringe los antiguos a
 
 ## Configurar Supabase Auth: únicamente personal
 
-1. Crear manualmente las tres cuentas en Authentication → Users y asignarlas con [01-assign-staff.sql](../supabase/setup/01-assign-staff.sql), como indica [13](13-puesta-en-marcha.md).
+1. Crear las tres cuentas iniciales en Authentication → Users y asignarlas con [01-assign-staff.sql](../supabase/setup/01-assign-staff.sql). Los administradores adicionales se agregan mediante el procedimiento controlado de [13](13-puesta-en-marcha.md).
 2. En la configuración de Auth, **desactivar “Allow new users to sign up”** y desactivar los inicios anónimos. Mantener el proveedor Email para que el personal existente pueda ingresar. Quitar el botón de registro por sí solo no bloquea la API de inscripciones. Referencia: [configuración general de Auth](https://supabase.com/docs/guides/auth/general-configuration).
 3. No activar login social público para crear usuarios. La futura autorización Google Calendar es independiente de Supabase Auth.
 4. Configurar URLs de retorno y recuperación de contraseña únicamente para el personal. SMTP puede ser necesario para recuperación del equipo; no se necesita confirmar correo para que un cliente reserve.

@@ -29,7 +29,7 @@ flowchart LR
 | Tailwind CSS | Diseño responsive y tokens de color. |
 | JavaScript modular | Estado de pantallas, validación de ayuda, calendario, gráficos y cliente Supabase. |
 | Vite, propuesto | Desarrollo local y compilación de archivos estáticos. |
-| Supabase Auth | Identidad y sesión únicamente del administrador y los dos peluqueros. |
+| Supabase Auth | Identidad y sesión únicamente de los dos administradores y los dos peluqueros. |
 | API Node `/api/public` | Contacto obligatorio, CAPTCHA validado, límites y acceso privado por reserva; clave privilegiada solo en servidor. |
 | PostgreSQL | Persistencia, reglas transaccionales, restricciones y agregación de ventas. |
 | Funciones SQL / RPC | Operaciones atómicas de agenda y cobro con autorización explícita. |
@@ -78,7 +78,7 @@ D09 confirmado: clientes sin cuenta ni contraseña, sin usuarios Auth anónimos.
 
 El administrador inicial se provisiona por un procedimiento controlado de operación. Los roles se guardan en una tabla protegida; no se toman de campos que el usuario pueda editar ni de una bandera en el navegador. Desactivar el acceso de un trabajador debe ser efectivo en el servidor.
 
-Equipo confirmado: dos peluqueros y un administrador. Los peluqueros necesitan acceso individual para avisos y descansos; vincular cada cuenta a `professionals`. Limitar por defecto su operación a la agenda asignada. La autorización para cobros por peluquero sigue pendiente; por defecto el administrador registra el pago. No asignar privilegios administrativos a los peluqueros.
+Equipo confirmado: dos peluqueros y dos administradores. Los peluqueros necesitan acceso individual para avisos y descansos; vincular cada cuenta a `professionals`. Limitar por defecto su operación a la agenda asignada. La autorización para cobros por peluquero sigue pendiente; por defecto los administradores registran el pago. No asignar privilegios administrativos a los peluqueros.
 
 Un registro presencial puede existir sin cuenta. No asociar automáticamente un historial a una nueva cuenta solo porque coincida el teléfono escrito; verificar identidad o realizar vinculación administrativa auditada.
 

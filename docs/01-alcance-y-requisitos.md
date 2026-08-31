@@ -15,7 +15,7 @@ Centralizar la agenda y el registro de ventas para conocer cuándo se atenderá 
 | Peluquero | Recibir recordatorios y bloquear descansos. Propuesta: gestionar su propia agenda y registrar llegada/atención; permiso de cobro por definir. |
 | Dueño / administrador | Lo anterior, más horarios, precios, usuarios, reportes y anulaciones. |
 
-Hay dos peluqueros con acceso para sus avisos y descansos, y un administrador. No se presupone un recepcionista adicional. El administrador no cuenta como tercer peluquero sin confirmación expresa. No se habilitará autorregistro de administradores ni asignación de roles desde el perfil editable del usuario.
+Hay dos peluqueros con acceso para sus avisos y descansos, y dos administradores. No se presupone un recepcionista adicional. Un administrador no cuenta como peluquero sin confirmación expresa. No se habilitará autorregistro de administradores ni asignación de roles desde el perfil editable del usuario.
 
 ## MVP
 
@@ -40,7 +40,7 @@ Hay dos peluqueros con acceso para sus avisos y descansos, y un administrador. N
 
 ## Criterios de operación propuestos
 
-- Un local en la primera versión con dos peluqueros y un administrador. Proponer dos agendas, sujetas a sus jornadas reales; no asumir un tercer cupo de atención.
+- Un local en la primera versión con dos peluqueros y dos administradores. Mantener dos agendas de atención, sujetas a las jornadas reales; no asumir otro cupo por agregar un administrador.
 - Una cita reserva un servicio principal y un profesional. La venta puede incluir varias líneas del catálogo cuando se realizaron servicios adicionales.
 - Una cita, una atención y una venta son conceptos distintos. Una cita reservada no es una venta.
 - Pago confirmado fuera de la aplicación: efectivo, transferencia o Deuna, directamente en el local. Propuesta: registrar al finalizar el importe recibido, el medio y el responsable; sin pasarela ni verificación bancaria automática.

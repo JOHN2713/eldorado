@@ -18,7 +18,7 @@ Modelo lógico propuesto para Supabase/PostgreSQL, v0.3 del 31 de agosto de 2026
 | Tabla | Campos principales | Reglas |
 | --- | --- | --- |
 | `business_settings` | `id`, nombre, dirección, zona, moneda, `slot_step_minutes`, anticipación, horizonte, `cancellation_notice_minutes`, `arrival_grace_minutes`, `arrival_recommendation`, `booking_enabled` | Configurar 30 minutos de cancelación y 5 de tolerancia; publicar solo campos apropiados. |
-| `user_roles` | `user_id` → Auth, `role`, `active` | Roles `barber`, `admin`; solo tres cuentas del personal, escritura privilegiada. Los clientes no tienen rol Auth. |
+| `user_roles` | `user_id` → Auth, `role`, `active` | Roles `barber`, `admin`; solo cuentas autorizadas del personal, escritura privilegiada. Los clientes no tienen rol Auth. |
 | `customers` | `id`, `auth_user_id` nullable y único, nombre, teléfono, correo | Reserva online y cliente presencial sin cuenta; contactos no públicos y sin fusión automática por coincidencias. |
 | `professionals` | `id`, nombre visible, `auth_user_id` único, `active` | Dos peluqueros con cuentas vinculadas para avisos y descansos. Capacidad propuesta de uno; administrador no es un tercer recurso. |
 | `services` | `id`, nombre, descripción, `price`, `estimated_min_minutes`, `estimated_max_minutes`, `duration_minutes`, `buffer_minutes`, `active` | Precio no negativo, estimación mínima positiva y máxima >= mínima; bloque propuesto igual al máximo. Margen >= 0. |

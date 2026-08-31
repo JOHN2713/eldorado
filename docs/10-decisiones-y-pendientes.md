@@ -19,7 +19,7 @@ Fuente de verdad de acuerdos. Última actualización: 31 de agosto de 2026. Las 
 | C11 | Existe una suscripción Railway según el usuario | Confirmado por usuario; cuenta y plan no verificados |
 | C12 | Nombre de presentación: El Dorado Barbería | Transcrito del cartel aportado |
 | C13 | Apertura de lunes a domingo, de 09:00 a 21:00 | Confirmado por mensaje; reemplaza lunes–sábado 09:00–19:00 del cartel |
-| C14 | Dos peluqueros y un administrador | Confirmado; acceso del peluquero necesario para avisos/descansos; nombres y jornadas pendientes |
+| C14 | Dos peluqueros y dos administradores | Segundo administrador agregado el 31 de agosto de 2026; se mantienen dos agendas de atención |
 | C15 | Normal 30–45, diseño 40–50, con barba 40–50, completo 50–60 minutos | Rangos específicos confirmados; bloques máximos propuestos, margen pendiente |
 | C16 | Corte normal $5.00; con diseño $6.00; con barba $6.50; completo $8.00 | Precios del cartel, moneda USD confirmada posteriormente |
 | C17 | Repositorio GitHub JOHN2713/eldorado | Rama `main` publicada el 31 de agosto de 2026 |
@@ -41,7 +41,7 @@ Responsable de respuestas de negocio: dueño, coordinado por el usuario. Respons
 | --- | --- | --- | --- |
 | D01 | Identidad y ubicación | Nombre y Zámbiza, calle Quito confirmados; referencia precisa/contacto pendientes | Información pública y confirmaciones. |
 | D02 | Moneda y zona horaria | USD confirmado; zona `America/Guayaquil` propuesta a validar al configurar | Cálculos y límites de fecha. |
-| D03 | Capacidad y equipo | Dos peluqueros con acceso a avisos/descansos y un administrador; nombres/jornadas/permisos de cobro pendientes. Propuesta de dos agendas | Agenda, recursos y permisos. |
+| D03 | Capacidad y equipo | Dos peluqueros con acceso a avisos/descansos y dos administradores; se mantienen dos agendas | Agenda, recursos y permisos. |
 | D04 | Catálogo y precio histórico | Rangos por servicio recibidos. Propuesta: bloques de 45/50/50/60 minutos; margen y política de precio reservado pendientes | Disponibilidad y cobro. |
 | D05 | Horarios y paso de agenda | Apertura 09:00–21:00 todos los días y descansos por personal confirmados; jornadas, descansos habituales, excepciones y cuadrícula pendientes | Disponibilidad real. |
 | D06 | Política de reserva | Confirmación inmediata; anticipación, horizonte y límites configurables | Reserva pública. |
@@ -156,6 +156,7 @@ Estas decisiones pueden desarrollarse como base técnica, revisando su compatibi
 | 2026-08-31 | Corregida la validación del origen público para normalizar la URL configurada por Railway | Diagnóstico del `403` en producción; `PUBLIC_APP_ORIGIN` tenía una barra final |
 | 2026-08-31 | Verificado despliegue Railway: `/health` correcto y consulta real de horarios con respuesta `200` | Publicación confirmada por el usuario y comprobación del dominio público |
 | 2026-08-31 | En móvil, Calendario abre directamente un evento prellenado; corregido autozoom de campos y ajustes responsive | Solicitud del usuario y revisión móvil |
+| 2026-08-31 | Invitado y activado un segundo administrador mediante Auth y `user_roles`; correo real no registrado en Git | Solicitud del usuario y operación controlada en Supabase |
 
 ## Registro para próximos acuerdos
 

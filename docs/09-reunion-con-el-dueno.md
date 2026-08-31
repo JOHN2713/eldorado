@@ -12,7 +12,7 @@ Ya se recibieron nombre/dirección/USD, precios y rangos por servicio, horario/e
 | --- | --- | --- |
 | D01 | Nombre y dirección Zámbiza, calle Quito recibidos. ¿Número/referencia, contacto y nombre del administrador? | Completar ubicación y responsable operativo. |
 | D02 | USD confirmado. Validar zona técnica propuesta `America/Guayaquil`. ¿El día de reportes termina a medianoche? | Agrupación de ventas y horas en Google Calendar. |
-| D03 | Dos peluqueros con acceso para avisos/descansos y un administrador. ¿Nombres, servicios por peluquero, permiso de cobro, elección por cliente y recursos compartidos? | Completar agendas y permisos. |
+| D03 | Dos peluqueros con acceso para avisos/descansos y dos administradores. ¿Nombres, servicios por peluquero, permiso de cobro, elección por cliente y recursos compartidos? | Completar agendas y permisos. |
 | D04 | Rangos recibidos; validar bloques máximos propuestos 45/50/50/60. ¿Margen adicional? ¿Qué incluye completo y qué significa “con turnos”? ¿Se respeta el precio reservado? | Agenda suficiente y reglas del catálogo. |
 | D05 | Confirmada apertura de 09:00 a 21:00 todos los días. ¿Descansos, feriados y jornadas de cada peluquero? ¿Cada cuánto ofrecer horas? | Completar disponibilidad sin asumir que ambos trabajan toda la jornada. |
 | D06 | ¿Con cuánta anticipación mínima y máxima reservar? ¿Se permite el mismo día? ¿Confirmación automática o manual? ¿Límite de citas activas por cliente? | Políticas para reservar y evitar abuso. |
