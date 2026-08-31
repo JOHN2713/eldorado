@@ -1,0 +1,28 @@
+{
+  "name": "el-dorado-barberia",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22.12.0" },
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 5173 --strictPort",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1 --port 4173 --strictPort",
+    "dev:api": "node --env-file-if-exists=.env.server.local server/index.js --api-only",
+    "start": "node --env-file-if-exists=.env.server.local server/index.js",
+    "test": "node --test tests/*.test.js",
+    "check:publish": "node scripts/check-publication.js",
+    "test:db": "node scripts/test-database.js",
+    "test:server": "node scripts/test-server.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.57.0",
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.1.0",
+    "tailwindcss": "^4.1.0",
+    "vite": "^7.0.0",
+    "pg": "^8.16.0"
+  }
+}
