@@ -52,7 +52,7 @@ Responsable de respuestas de negocio: dueño, coordinado por el usuario. Respons
 | D11 | Notificaciones internas | Flotantes a administrador y peluquero asignado 10 minutos antes, confirmado. Sin avisos fuera de la web cerrada | Audiencia, programación y pruebas. |
 | D12 | Privacidad y conservación | Recoger lo mínimo y restringir bandejas por destinatario; revisión según país real | Datos de clientes, lectura de avisos y conservación. |
 | D13 | Marca | Nombre y cartel recibidos; falta logotipo original, textos finales y validar códigos exactos de paleta | Apariencia final. |
-| D14 | Infraestructura y responsables | Rama `main` publicada en JOHN2713/eldorado y Supabase conectado; faltan Railway, dominio y responsables operativos | Despliegue, presupuesto y recuperación. |
+| D14 | Infraestructura y responsables | GitHub, Supabase y Railway conectados; dominio público generado. Faltan responsables operativos y validación de consumo | Operación, presupuesto y recuperación. |
 | D15 | Entregas y ampliaciones | MVP por fases, un local; ampliaciones fuera de alcance | Planificación y aceptación. |
 | D16 | Google Calendar del cliente | Requisito aceptado en alcance; propuesta optativa app → Google, OAuth y cambios/cancelaciones. Configuración, calendario destino y permisos por completar | Integración y consentimiento. |
 
@@ -154,6 +154,7 @@ Estas decisiones pueden desarrollarse como base técnica, revisando su compatibi
 | 2026-08-31 | Agregado requisito Google Calendar y diseño opcional de sincronización con OAuth | Solicitud del usuario y documentación oficial enlazada en documento 12 |
 | 2026-08-31 | Publicada la rama `main` en GitHub con control de secretos y verificación automática | Autorización del usuario; Railway queda pendiente |
 | 2026-08-31 | Corregida la validación del origen público para normalizar la URL configurada por Railway | Diagnóstico del `403` en producción; `PUBLIC_APP_ORIGIN` tenía una barra final |
+| 2026-08-31 | Verificado despliegue Railway: `/health` correcto y consulta real de horarios con respuesta `200` | Publicación confirmada por el usuario y comprobación del dominio público |
 
 ## Registro para próximos acuerdos
 

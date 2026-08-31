@@ -1,6 +1,6 @@
 # 14 — Estado real de la implementación
 
-Versión 0.2.0 — 31 de agosto de 2026. El código está publicado en GitHub, pero la aplicación todavía no tiene un despliegue público ni representa un piloto aprobado por el dueño.
+Versión 0.2.0 — 31 de agosto de 2026. El código está publicado en GitHub y la aplicación está desplegada en Railway. Todavía no representa un piloto aprobado por el dueño.
 
 ## Implementado en código
 
@@ -39,7 +39,7 @@ Versión 0.2.0 — 31 de agosto de 2026. El código está publicado en GitHub, p
 - Bandeja inicial de avisos vigentes, sin historial navegable, contador ni enlace directo a la cita. Realtime es una ampliación, no una dependencia instalada.
 - Privacidad provisional: faltan responsable/contacto, retención, textos definitivos y controles operativos antes de publicar. Logotipo original/fotos aún pendientes; la marca de corona actual es un recurso SVG provisional.
 - No hay OAuth Calendar, cifrado de refresh tokens ni cola de sincronización implementados. Ver [12](12-google-calendar.md); `.ics` no satisface ese requisito.
-- El código está publicado en la rama `main` de GitHub. No se ha creado el servicio Railway ni desplegado un dominio público.
+- El código está publicado en la rama `main` de GitHub y Railway despliega el dominio `eldorado-production-d510.up.railway.app`. Falta validar una reserva completa con CAPTCHA y la operación del personal.
 
 ## Contrato de esta versión frente al diseño documental
 
@@ -75,4 +75,4 @@ npm run test:server
 
 ## Siguiente entrega
 
-Crear el servicio Railway desde la rama `main`, cargar sus variables protegidas, establecer el dominio en `PUBLIC_APP_ORIGIN` y probar desde ese dominio reserva → llegada → corte → cobro con cuentas controladas. También siguen pendientes privacidad, OAuth Calendar y la validación operativa con el dueño.
+Probar desde Railway reserva → llegada → corte → cobro con cuentas controladas y confirmar Turnstile en una reserva completa. También siguen pendientes privacidad, OAuth Calendar y la validación operativa con el dueño.

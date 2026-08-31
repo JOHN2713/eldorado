@@ -1,6 +1,6 @@
 # 08 — Repositorio y despliegue futuro
 
-Estado: guía de preparación, actualizada el 31 de agosto de 2026. La rama `main` está publicada en [JOHN2713/eldorado](https://github.com/JOHN2713/eldorado). El proyecto Supabase del negocio está conectado y la consulta de horarios fue verificada. No se ha accedido a Railway ni publicado la aplicación en un dominio; también falta comprobar una reserva pública completa con CAPTCHA.
+Estado: aplicación publicada en [Railway](https://eldorado-production-d510.up.railway.app) desde la rama `main` de [JOHN2713/eldorado](https://github.com/JOHN2713/eldorado). El proyecto Supabase está conectado; `/health` y la consulta pública de horarios fueron verificados el 31 de agosto de 2026. Falta comprobar una reserva completa con CAPTCHA y el ciclo operativo del personal.
 
 ## Destino propuesto
 
@@ -62,7 +62,7 @@ Separar proyectos o instancias de Supabase según presupuesto; si no se puede di
 8. Comprobar interfaz, login, reserva concurrente, cobro, reportes y recordatorios desde el dominio final.
 9. Revisar alertas y consumo del servicio tras el despliegue.
 
-Ya están disponibles `npm run build` y `npm start`: Express sirve `dist/`, escucha en `PORT` y ofrece `/health`. El repositorio también ejecuta instalación, control de secretos, pruebas, build y prueba del servidor mediante GitHub Actions. Falta crear el servicio Railway, cargar sus variables y verificar el dominio final.
+Railway ejecuta el build y `npm start`: Express sirve `dist/`, escucha en `PORT` y ofrece `/health`. El repositorio también ejecuta instalación, control de secretos, pruebas, build y prueba del servidor mediante GitHub Actions. El dominio actual es `eldorado-production-d510.up.railway.app`.
 
 ## Alternativa Vercel
 

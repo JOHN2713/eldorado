@@ -1,10 +1,10 @@
 # El Dorado Barbería — Agenda y ventas
 
-**Estado:** primera versión ejecutable conectada al proyecto Supabase del negocio. OAuth Google y despliegue pendientes.<br>
+**Estado:** primera versión desplegada en Railway y conectada al proyecto Supabase del negocio. OAuth Google pendiente.<br>
 **Versión de aplicación:** 0.2.0 · **Versión documental:** 0.5 — 31 de agosto de 2026.<br>
 **Repositorio:** [JOHN2713/eldorado](https://github.com/JOHN2713/eldorado), rama `main` publicada el 31 de agosto de 2026.
 
-Este proyecto permite reservar turnos, recordar citas, registrar servicios realizados con o sin reserva y consultar las ventas de la peluquería. La interfaz, el servidor y las operaciones SQL están implementados. El proyecto Supabase del negocio ya fue configurado por el responsable y se verificó la consulta de horarios; el despliegue público aún no se ha realizado.
+Este proyecto permite reservar turnos, recordar citas, registrar servicios realizados con o sin reserva y consultar las ventas de la peluquería. La interfaz, el servidor y las operaciones SQL están implementados. El proyecto Supabase del negocio ya fue configurado y la aplicación está publicada en [Railway](https://eldorado-production-d510.up.railway.app). Se verificaron `/health` y la consulta pública de horarios; falta comprobar una reserva completa con CAPTCHA.
 
 **Nuevo flujo confirmado:** los clientes reservan sin cuenta, indicando nombre, celular y correo. Solo el administrador y los dos peluqueros usan Supabase Auth. La gestión del cliente es por enlace privado de cada reserva. Ver [15 — Reservas sin cuenta](docs/15-reservas-sin-cuenta.md), especialmente si ya se aplicaron las primeras migraciones.
 
@@ -85,7 +85,7 @@ Mientras falten datos se puede avanzar con estructura, componentes y datos ficti
 
 ## Alojamiento previsto
 
-Se propone **Railway para la interfaz y Supabase para datos, autenticación y procesos de recordatorios**, aprovechando la suscripción existente. Falta comprobar su plan y consumo disponible; no se ha accedido a la cuenta.
+Se usa **Railway para la interfaz y API, y Supabase para datos, autenticación y procesos de recordatorios**. Falta revisar periódicamente el plan y consumo disponible.
 
 Vercel Hobby está limitado a uso personal no comercial. Por ello, no se plantea su modalidad gratuita como destino de producción para el negocio; Vercel queda como alternativa con un plan adecuado. Ver [documentación oficial de Vercel Hobby](https://vercel.com/docs/plans/hobby) y [plan de despliegue](docs/08-repositorio-y-despliegue.md).
 
