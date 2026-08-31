@@ -153,6 +153,7 @@ Estas decisiones pueden desarrollarse como base técnica, revisando su compatibi
 | 2026-08-31 | v0.3: destinatarios, rangos específicos, dirección/USD, pagos directos, cancelación 30 min, tolerancia 5 min, consejo de llegada y descansos | Nuevo mensaje del usuario; actualizados todos los módulos afectados |
 | 2026-08-31 | Agregado requisito Google Calendar y diseño opcional de sincronización con OAuth | Solicitud del usuario y documentación oficial enlazada en documento 12 |
 | 2026-08-31 | Publicada la rama `main` en GitHub con control de secretos y verificación automática | Autorización del usuario; Railway queda pendiente |
+| 2026-08-31 | Corregida la validación del origen público para normalizar la URL configurada por Railway | Diagnóstico del `403` en producción; `PUBLIC_APP_ORIGIN` tenía una barra final |
 
 ## Registro para próximos acuerdos
 

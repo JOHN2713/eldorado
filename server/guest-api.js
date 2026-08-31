@@ -20,6 +20,12 @@ export const hashToken = (token) => {
   if (typeof token !== 'string' || !/^[a-f0-9]{64}$/.test(token)) throw new PublicError('RESERVATION_NOT_FOUND', 404);
   return sha(token);
 };
+function normalizeOrigin(value) {
+  try {
+    const parsed = new URL(value);
+    return ['http:', 'https:'].includes(parsed.protocol) ? parsed.origin : '';
+  } catch { return ''; }
+}
 export async function verifyTurnstile({ token, secret, hostname, requestId, fetcher = fetch }) {
   if (typeof token !== 'string' || !token || token.length > 2048) throw new PublicError('CAPTCHA_REQUIRED');
   const response = await fetcher('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
@@ -33,13 +39,14 @@ export async function verifyTurnstile({ token, secret, hostname, requestId, fetc
 // No user ID, email or phone alone ever authorizes reading/cancelling a reservation.
 export function guestRouter({ rpc, origin, secret, captchaSecret, captchaSiteKey, verify = verifyTurnstile, now = Date.now }) {
   const router = express.Router();
-  const ready = Boolean(rpc && origin && secret && captchaSecret && captchaSiteKey);
+  const allowedOrigin = normalizeOrigin(origin);
+  const ready = Boolean(rpc && allowedOrigin && secret && captchaSecret && captchaSiteKey);
   const memory = new Map();
   router.use((_req, res, next) => { res.set('Cache-Control', 'no-store'); next(); });
   router.get('/config', (_req, res) => res.json({ ready, captchaSiteKey: ready ? captchaSiteKey : null }));
   router.use((req, res, next) => {
     if (!ready) return res.status(503).json({ error: 'PUBLIC_BOOKING_UNAVAILABLE' });
-    if (req.method !== 'POST' || req.get('origin') !== origin) return res.status(403).json({ error: 'NOT_AUTHORIZED' });
+    if (req.method !== 'POST' || req.get('origin') !== allowedOrigin) return res.status(403).json({ error: 'NOT_AUTHORIZED' });
     const clock = now();
     // Bounded local protection before JSON parsing, CAPTCHA calls and database traffic.
     for (const [key, entry] of memory) if (entry.until <= clock) memory.delete(key);
@@ -68,7 +75,7 @@ export function guestRouter({ rpc, origin, secret, captchaSecret, captchaSiteKey
       const input = req.body || {}, contact = normalizeContact(input);
       if (!uuid.test(input.requestId || '') || !uuid.test(input.serviceId || '') || !uuid.test(input.professionalId || '') || typeof input.startsAt !== 'string' || !Number.isFinite(Date.parse(input.startsAt))) throw new PublicError('INVALID_INPUT');
       const tokenHash = hashToken(input.managementToken);
-      await verify({ token: input.captchaToken, secret: captchaSecret, hostname: new URL(origin).hostname, requestId: input.requestId });
+      await verify({ token: input.captchaToken, secret: captchaSecret, hostname: new URL(allowedOrigin).hostname, requestId: input.requestId });
       const body = { p_service: input.serviceId, p_professional: input.professionalId, p_start: new Date(input.startsAt).toISOString(), p_name: contact.name, p_phone: contact.phone, p_email: contact.email, p_token_hash: tokenHash, p_request_id: input.requestId };
       const appointment = await rpc('create_guest_booking', { ...body, p_request_hash: sha(JSON.stringify(body)) });
       res.status(201).json({ appointment });

@@ -35,6 +35,17 @@ test('Gateway falla cerrado sin configuración; bloquea origen y CAPTCHA antes d
     assert.equal(writes,0);
   });
 });
+test('Gateway normaliza la URL configurada al origen y rechaza URLs inválidas', async () => {
+  const serviceId = randomUUID();
+  const rpc = async (name) => name === 'guest_request_gate' ? true : [];
+  await withAPI({ ...options, origin: options.origin + '/', rpc }, async (base) => {
+    const response = await post(base, '/slots', { serviceId, date: '2030-01-01' });
+    assert.equal(response.status, 200);
+  });
+  await withAPI({ ...options, origin: 'dominio-sin-esquema', rpc }, async (base) => {
+    assert.equal((await post(base, '/slots', { serviceId, date: '2030-01-01' })).status, 503);
+  });
+});
 test('Gateway solo transmite hash privado y contacto normalizado; no acepta precio o rol del navegador', async () => {
   let received;
   const input={...payload(),price:0,role:'admin'};
