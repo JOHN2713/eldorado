@@ -2,7 +2,7 @@
 
 **Estado:** primera versión ejecutable conectada al proyecto Supabase del negocio. OAuth Google y despliegue pendientes.<br>
 **Versión de aplicación:** 0.2.0 · **Versión documental:** 0.5 — 31 de agosto de 2026.<br>
-**Repositorio indicado:** [JOHN2713/eldorado](https://github.com/JOHN2713/eldorado), aún sin sincronizar desde esta carpeta.
+**Repositorio:** [JOHN2713/eldorado](https://github.com/JOHN2713/eldorado), rama `main` publicada el 31 de agosto de 2026.
 
 Este proyecto permite reservar turnos, recordar citas, registrar servicios realizados con o sin reserva y consultar las ventas de la peluquería. La interfaz, el servidor y las operaciones SQL están implementados. El proyecto Supabase del negocio ya fue configurado por el responsable y se verificó la consulta de horarios; el despliegue público aún no se ha realizado.
 

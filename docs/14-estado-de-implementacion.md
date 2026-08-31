@@ -1,6 +1,6 @@
 # 14 — Estado real de la implementación
 
-Versión local 0.2.0 — 31 de agosto de 2026. No representa una aplicación publicada ni un piloto aprobado por el dueño.
+Versión 0.2.0 — 31 de agosto de 2026. El código está publicado en GitHub, pero la aplicación todavía no tiene un despliegue público ni representa un piloto aprobado por el dueño.
 
 ## Implementado en código
 
@@ -23,7 +23,7 @@ Versión local 0.2.0 — 31 de agosto de 2026. No representa una aplicación pub
 
 ## Límites deliberados de esta primera versión
 
-- No se ha creado Supabase ni verificado su Auth, Data API, SMTP o Cron en un proyecto real. Los scripts están listos para instalar y validar.
+- El proyecto Supabase del negocio está conectado, el personal fue creado y la consulta de horarios fue verificada. Falta comprobar una reserva pública completa con CAPTCHA y validar SMTP, Cron y el ciclo operativo completo.
 - Reserva online sin cuenta confirmada por el usuario. CAPTCHA real y gateway privado deben configurarse. No hay usuarios Auth anónimos, búsqueda de historial por contacto ni envío automático del enlace por correo.
 - Solo el administrador cobra y ve reportes. El dueño debe confirmar estos permisos.
 - Bloques iniciales 45/50/50/60 min, margen 0, paso 5 min, horizonte 30 días y anticipación 0 son decisiones técnicas revisables. La base limita inicialmente a 3 futuras citas confirmadas/presentes por celular o correo para invitados, llegada desde 60 min antes y registros retrospectivos hasta 365 días. Estos límites de protección están en SQL; no presentarlos como acuerdos confirmados.
@@ -39,7 +39,7 @@ Versión local 0.2.0 — 31 de agosto de 2026. No representa una aplicación pub
 - Bandeja inicial de avisos vigentes, sin historial navegable, contador ni enlace directo a la cita. Realtime es una ampliación, no una dependencia instalada.
 - Privacidad provisional: faltan responsable/contacto, retención, textos definitivos y controles operativos antes de publicar. Logotipo original/fotos aún pendientes; la marca de corona actual es un recurso SVG provisional.
 - No hay OAuth Calendar, cifrado de refresh tokens ni cola de sincronización implementados. Ver [12](12-google-calendar.md); `.ics` no satisface ese requisito.
-- No se ha subido código a GitHub, contratado servicios ni desplegado Railway/Vercel.
+- El código está publicado en la rama `main` de GitHub. No se ha creado el servicio Railway ni desplegado un dominio público.
 
 ## Contrato de esta versión frente al diseño documental
 
@@ -75,4 +75,4 @@ npm run test:server
 
 ## Siguiente entrega
 
-Crear/configurar Supabase siguiendo [13](13-puesta-en-marcha.md), cargar equipo y jornadas reales, completar privacidad y probar el ciclo reserva → llegada → corte → cobro con cuentas controladas. Después implementar OAuth Calendar y preparar repositorio/despliegue, conservando cualquier contenido existente del remoto.
+Crear el servicio Railway desde la rama `main`, cargar sus variables protegidas, establecer el dominio en `PUBLIC_APP_ORIGIN` y probar desde ese dominio reserva → llegada → corte → cobro con cuentas controladas. También siguen pendientes privacidad, OAuth Calendar y la validación operativa con el dueño.

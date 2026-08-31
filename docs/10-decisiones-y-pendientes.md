@@ -22,7 +22,7 @@ Fuente de verdad de acuerdos. Última actualización: 31 de agosto de 2026. Las 
 | C14 | Dos peluqueros y un administrador | Confirmado; acceso del peluquero necesario para avisos/descansos; nombres y jornadas pendientes |
 | C15 | Normal 30–45, diseño 40–50, con barba 40–50, completo 50–60 minutos | Rangos específicos confirmados; bloques máximos propuestos, margen pendiente |
 | C16 | Corte normal $5.00; con diseño $6.00; con barba $6.50; completo $8.00 | Precios del cartel, moneda USD confirmada posteriormente |
-| C17 | Repositorio indicado: GitHub JOHN2713/eldorado | URL aportada; contenido/acceso sin verificar, sin push |
+| C17 | Repositorio GitHub JOHN2713/eldorado | Rama `main` publicada el 31 de agosto de 2026 |
 | C18 | Dirección: Zámbiza, calle Quito; moneda dólar USD | Confirmado por mensaje; referencia/contacto y zona técnica por completar |
 | C19 | Pago directo en el establecimiento: efectivo, transferencia o Deuna | Confirmado; sin integración de pago en la web |
 | C20 | Cliente puede cancelar hasta 30 minutos antes | Confirmado; incluir límite exacto en validación de servidor |
@@ -52,7 +52,7 @@ Responsable de respuestas de negocio: dueño, coordinado por el usuario. Respons
 | D11 | Notificaciones internas | Flotantes a administrador y peluquero asignado 10 minutos antes, confirmado. Sin avisos fuera de la web cerrada | Audiencia, programación y pruebas. |
 | D12 | Privacidad y conservación | Recoger lo mínimo y restringir bandejas por destinatario; revisión según país real | Datos de clientes, lectura de avisos y conservación. |
 | D13 | Marca | Nombre y cartel recibidos; falta logotipo original, textos finales y validar códigos exactos de paleta | Apariencia final. |
-| D14 | Infraestructura y responsables | Repositorio JOHN2713/eldorado aportado; faltan acceso/rama/cuentas/dominio. Railway + Supabase siguen propuestos | Publicación, presupuesto y recuperación. |
+| D14 | Infraestructura y responsables | Rama `main` publicada en JOHN2713/eldorado y Supabase conectado; faltan Railway, dominio y responsables operativos | Despliegue, presupuesto y recuperación. |
 | D15 | Entregas y ampliaciones | MVP por fases, un local; ampliaciones fuera de alcance | Planificación y aceptación. |
 | D16 | Google Calendar del cliente | Requisito aceptado en alcance; propuesta optativa app → Google, OAuth y cambios/cancelaciones. Configuración, calendario destino y permisos por completar | Integración y consentimiento. |
 
@@ -152,6 +152,7 @@ Estas decisiones pueden desarrollarse como base técnica, revisando su compatibi
 | 2026-08-31 | Registrado repositorio indicado y sustituida mensajería externa por notificaciones flotantes internas | Mensaje del usuario; se revisaron arquitectura, datos, interfaz, pruebas y despliegue |
 | 2026-08-31 | v0.3: destinatarios, rangos específicos, dirección/USD, pagos directos, cancelación 30 min, tolerancia 5 min, consejo de llegada y descansos | Nuevo mensaje del usuario; actualizados todos los módulos afectados |
 | 2026-08-31 | Agregado requisito Google Calendar y diseño opcional de sincronización con OAuth | Solicitud del usuario y documentación oficial enlazada en documento 12 |
+| 2026-08-31 | Publicada la rama `main` en GitHub con control de secretos y verificación automática | Autorización del usuario; Railway queda pendiente |
 
 ## Registro para próximos acuerdos
 
