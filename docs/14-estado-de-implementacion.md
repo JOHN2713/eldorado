@@ -1,6 +1,8 @@
 # 14 — Estado real de la implementación
 
-Versión 0.2.0 — 31 de agosto de 2026. El código está publicado en GitHub y la aplicación está desplegada en Railway. Todavía no representa un piloto aprobado por el dueño.
+Versión 0.3.0 — 3 de septiembre de 2026. El código está publicado en GitHub y la aplicación está desplegada en Railway. Todavía no representa un piloto aprobado por el dueño.
+
+La migración 005 está probada localmente y pendiente de ejecución en Supabase remoto. Hasta aplicarla, el panel de usuarios informa que debe actualizarse la base y no envía invitaciones. El acceso administrativo temporal fue desactivado; la promoción del profesional existente debe realizarse después de esta migración para conservar su disponibilidad.
 
 ## Implementado en código
 
@@ -12,12 +14,13 @@ Versión 0.2.0 — 31 de agosto de 2026. El código está publicado en GitHub y 
 | Reservas | Consulta por día/profesional/servicio y confirmación mediante función SQL. Ocupación compartida por citas y descansos, restricción GiST e idempotencia. |
 | Políticas | Cancelación hasta 30 minutos antes; llegada separada de inicio; inasistencia después de 5 minutos sin llegada. Mensaje de llegar 5 minutos antes. |
 | Personal | Agenda del día, registro de llegada/inicio/finalización y reprogramación autorizada con revisión de versión. |
+| Usuarios | El administrador lista e invita cuentas de administrador o peluquero desde el panel. Las agendas nuevas quedan inactivas hasta configurar servicios y jornada. Un administrador puede conservar una agenda profesional. |
 | Descansos | Peluquero sobre su agenda y administrador sobre cualquiera. Crear/retirar; rechaza cruces, mantiene motivo privado. |
 | Sin cita | Atención inmediata si cabe; registro de atención anterior con motivo sin ocupar retrospectivamente la agenda. |
 | Cobros | Administrador registra dinero recibido por efectivo, transferencia o Deuna. Cálculo y precios históricos del servidor; no pasarela de pago. |
 | Ventas | Día, semana, mes y fechas inclusivas; totales de ventas cobradas, serie diaria y detalle. Anulación auditada sin borrar registros ni devolver dinero. |
 | Recordatorios | Programados a 10 minutos, administrador y peluquero asignado; consulta cada 20 s con web visible, reclamación de presentación, bandeja de vigentes y lectura/cierre independientes. |
-| Base | Cuatro migraciones, RLS y funciones SQL con permisos explícitos; roles del personal por instalación controlada. |
+| Base | Cinco migraciones, RLS y funciones SQL con permisos explícitos; alta del personal mediante API privada y sesión administrativa. |
 | Operación | Servidor Express para el build, API pública protegida por CAPTCHA/límites y ruta `/health`. Script Supabase Cron para ausencias. No se activó Cron remotamente. |
 | Calendario | Enlace de evento prellenado en Google Calendar, directo en móvil, y descarga `.ics` en escritorio. Son copias sin actualizaciones; **sincronización OAuth no implementada.** |
 
@@ -56,8 +59,8 @@ Los documentos 01–12 describen el alcance objetivo. Para ejecutar código, los
 
 - Compilación de producción con Vite y Node 24.19.
 - Servidor Express verificado por HTTP: `/health`, recargas de rutas SPA, recursos inexistentes 404 y cabeceras. Se ejecutó fuera del aislamiento de red local después de que este interfiriera con las solicitudes de prueba.
-- 19 pruebas JavaScript/HTTP: invitación y recuperación de acceso, fechas, cancelación, escape, ICS y enlace Google Calendar, contacto, tokens, validación CAPTCHA, normalización y rechazo de orígenes, fallos cerrados, límites y contrato del gateway. Adaptadores externos simulados.
-- Migraciones ejecutadas en PostgreSQL 14.15 local, dentro de una instancia temporal aislada. 20 comprobaciones SQL aprobadas (14 de la base anterior y 6 del nuevo flujo sin cuenta): permisos/RLS, concurrencia de reservas, intervalos, idempotencia, descansos, cancelación, reprogramación, atención sin cita, ausencia, destinatarios y reclamación de avisos, cobros y reportes.
+- 24 pruebas JavaScript/HTTP: acceso, calendario, reserva pública y administración de usuarios; incluye autenticación administrativa, origen permitido, validaciones, migración previa al envío y errores cerrados. Adaptadores externos simulados.
+- Migraciones ejecutadas en PostgreSQL 14.15 local, dentro de una instancia temporal aislada. 22 comprobaciones SQL aprobadas, incluidas la agenda de un administrador-profesional y el alta de personal restringida al servidor.
 - Navegación de vista previa inspeccionada en el navegador: reservas, agenda y ventas; selección de servicios y bloqueo de guardado sin Supabase. Revisiones de ancho móvil y escritorio sin desbordamiento general; consola sin errores en esos recorridos.
 
 Las pruebas de SQL simulan `auth.users` y `auth.uid()` para probar los roles con `SET ROLE`; no simulan una prueba integral de Supabase Auth/PostgREST. La entrega no afirma que se hayan probado correos reales, Google Calendar, Cron remoto, sesiones multiusuario en producción ni todos los criterios del documento 07.

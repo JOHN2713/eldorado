@@ -64,6 +64,8 @@ Separar proyectos o instancias de Supabase según presupuesto; si no se puede di
 
 Railway ejecuta el build y `npm start`: Express sirve `dist/`, escucha en `PORT` y ofrece `/health`. El repositorio también ejecuta instalación, control de secretos, pruebas, build y prueba del servidor mediante GitHub Actions. El dominio actual es `eldorado-production-d510.up.railway.app`.
 
+La versión 0.3 añade `/api/staff` en el mismo servicio, usando la clave privada existente. Antes de invitar personal, ejecutar la migración 005 en Supabase SQL Editor; Railway no aplica migraciones automáticamente. Mantener la URL `/ingresar` del dominio público en la lista de redirecciones de Auth y comprobar SMTP. No publicar scripts `*.local.sql`, porque pueden contener correos reales de operación.
+
 ## Alternativa Vercel
 
 Con un plan adecuado, adaptar también el backend público a funciones Vercel; el build estático por sí solo no soporta reservas sin cuenta. Configurar variables privadas y públicas, rutas y dominio. Mantener Supabase para persistencia/autorización, Cron de inasistencias y procesador Google; los flotantes se presentan en el frontend. No se necesita scheduler del hosting del frontend y no se deben asumir límites sin verificarlos al elegir el plan.

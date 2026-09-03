@@ -1,6 +1,6 @@
 # 13 — Puesta en marcha de El Dorado
 
-Fecha: 31 de agosto de 2026. Versión 0.2.0, clientes sin cuenta. Ver también [15 — Actualización](15-reservas-sin-cuenta.md). Esta guía describe acciones que todavía debe realizar el responsable del proyecto. No se ha creado ni modificado un proyecto Supabase remoto.
+Fecha: 3 de septiembre de 2026. Versión 0.3.0, clientes sin cuenta. Ver también [15 — Actualización](15-reservas-sin-cuenta.md).
 
 ## 1. Crear el proyecto Supabase
 
@@ -8,7 +8,7 @@ Crear un proyecto **nuevo y dedicado a El Dorado** desde el [panel de Supabase](
 
 Para comenzar, usar datos de prueba y mantener las reservas deshabilitadas. La base del negocio vive en Supabase, no en el ordenador que sirve la página ni en Railway.
 
-## 2. Ejecutar cuatro migraciones, en orden
+## 2. Ejecutar cinco migraciones, en orden
 
 En **SQL Editor**, abrir una consulta, pegar el contenido completo de cada archivo y ejecutar. Ejecutar uno por uno, solo cuando el anterior termine correctamente:
 
@@ -18,8 +18,9 @@ En **SQL Editor**, abrir una consulta, pegar el contenido completo de cada archi
 | 2 | [202608310002_operations.sql](../supabase/migrations/202608310002_operations.sql) | Operaciones de reservas, descansos, atención, cobros, reportes y recordatorios. |
 | 3 | [202608310003_business.sql](../supabase/migrations/202608310003_business.sql) | El Dorado, dirección, USD, apertura 09:00–21:00 todos los días, servicios/precios y dos profesionales sin habilitar. |
 | 4 | [202608310004_guest_booking.sql](../supabase/migrations/202608310004_guest_booking.sql) | Reserva sin cuenta, correo del cliente, enlaces privados y límites; restringe los accesos anteriores. |
+| 5 | [202609030005_staff_management.sql](../supabase/migrations/202609030005_staff_management.sql) | Alta segura de personal y soporte para administradores que también atienden como peluqueros. |
 
-Si ya se instalaron 001–003, ejecutar **solo 004**. No reinstalar ni borrar la base. Para instalación inicial, se ejecutan una sola vez en un proyecto vacío, como propietario desde el SQL Editor. Cada migración tiene su transacción. Si falla, guardar el error sin credenciales y corregir antes de continuar; no borrar tablas ni volver a ejecutar migraciones ya aplicadas. No ejecutar los scripts locales de prueba dentro del SQL Editor.
+Si ya se instalaron 001–004, ejecutar **solo 005**. No reinstalar ni borrar la base. Para instalación inicial, se ejecutan una sola vez en un proyecto vacío, como propietario desde el SQL Editor. Cada migración tiene su transacción. Si falla, guardar el error sin credenciales y corregir antes de continuar; no borrar tablas ni volver a ejecutar migraciones ya aplicadas. No ejecutar los scripts locales de prueba dentro del SQL Editor.
 
 Comprobación de lectura después de la migración 004:
 
@@ -68,18 +69,11 @@ Completar también el segundo arreglo. Ejecutar el archivo completo una vez. No 
 
 El script asigna los roles iniciales mediante SQL controlado. No hay registro público de cuentas: el cliente reserva sin Auth y todas las cuentas del equipo se crean administrativamente.
 
-Para agregar posteriormente otro administrador, mantener el dominio `/ingresar` en las URLs permitidas de Supabase y ejecutar desde un entorno confiable:
-
-```powershell
-$env:ADMIN_REDIRECT_ORIGIN='https://DOMINIO_PUBLICO'
-.\scripts\npm-local.ps1 run staff:invite-admin -- NUEVO_ADMIN@example.com --invite
-```
-
-El script usa la clave privada de `.env.server.local`, envía una invitación, rechaza usuarios vinculados como peluqueros y activa `user_roles.role='admin'`. No guardar el correo real en Git. La persona invitada abre el enlace, establece su contraseña y entra directamente al panel. Si la invitación vence, se puede ejecutar nuevamente solo después de revisar el usuario en Authentication → Users.
+Después de instalar la migración 005, un administrador puede abrir **Panel del negocio → Usuarios** y enviar una invitación a un nuevo administrador o peluquero. La clave privada permanece en Railway; el navegador envía únicamente la sesión del administrador. Para un peluquero se eligen sus servicios y se crea una agenda inactiva. Luego hay que abrir **Configuración**, guardar su jornada y activar el perfil cuando esté listo. La persona invitada abre el enlace, establece su contraseña y entra al panel.
 
 ## 4. Configurar autenticación
 
-Supabase Auth se usa exclusivamente para los administradores y los dos peluqueros, con correo y contraseña. Los clientes no crean cuentas ni reciben correo de verificación para reservar.
+Supabase Auth se usa exclusivamente para el personal autorizado, con correo y contraseña. Los clientes no crean cuentas ni reciben correo de verificación para reservar.
 
 - Desactivar **Allow new users to sign up** y los inicios de sesión anónimos; mantener Email para ingresar con las cuentas del personal ya creadas. Ver [configuración de Auth](https://supabase.com/docs/guides/auth/general-configuration).
 - Configurar **Site URL** local: `http://127.0.0.1:5173`.

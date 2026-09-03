@@ -33,6 +33,10 @@ const errors = {
   INVALID_INPUT: 'Revisa los datos. Alguno tiene un formato o valor no permitido.',
   SETUP_INCOMPLETE: 'Falta completar el equipo. Revisa «Qué falta para activar las reservas» y guarda los días y horas de cada peluquero antes de habilitarlas.',
   ALREADY_SOLD: 'Esta atención ya tiene una venta registrada.',
+  STAFF_EXISTS: 'Ese correo ya está registrado en el equipo. Esta pantalla no cambia roles ni reactiva cuentas existentes.',
+  SERVICES_REQUIRED: 'Selecciona al menos un servicio para el nuevo peluquero.',
+  STAFF_MANAGEMENT_UNAVAILABLE: 'No se pudo administrar el equipo. Comprueba que la última migración esté instalada y vuelve a intentar.',
+  STAFF_INVITE_FAILED: 'No se pudo enviar la invitación. Revisa la configuración de correo SMTP y los límites de Supabase Auth antes de reintentar.',
 };
 export function friendly(error) {
   const msg = error?.message || String(error);
@@ -77,3 +81,18 @@ export async function signIn(email, password) {
   const { error } = await supabase.auth.signInWithPassword({ email, password });
   if (error) throw error;
 }
+
+async function staffRequest(path, options = {}) {
+  if (!supabase) throw new Error('Supabase no configurado');
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session) throw new Error('LOGIN_REQUIRED');
+  const response = await fetch(`/api/staff/${path}`, {
+    ...options,
+    headers: { Authorization: `Bearer ${session.access_token}`, ...(options.body ? { 'Content-Type': 'application/json' } : {}), ...options.headers },
+  });
+  const result = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(result.error || 'STAFF_MANAGEMENT_UNAVAILABLE');
+  return result;
+}
+export async function staffUsers() { return (await staffRequest('users')).users; }
+export async function createStaff(input) { return staffRequest('users', { method: 'POST', body: JSON.stringify(input) }); }

@@ -11,3 +11,4 @@ dist/
 coverage/
 *.dump
 *.backup
+*.local.sql

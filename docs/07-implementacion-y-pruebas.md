@@ -64,6 +64,9 @@ La fase 1 puede avanzar mientras se resuelven datos de negocio. No cerrar fases 
 | CA38 | RF13 | Reintento no duplica evento; reprogramar actualiza el mismo, cancelar/inasistencia lo retira. Un trabajo antiguo no sobrescribe la versión nueva. |
 | CA39 | RF13–RF12 | A no usa conexiones/citas de B; no hay tokens en frontend/logs. Revocar acceso detiene reintentos inútiles; borrar en Google no cancela el turno. |
 | CA40 | RF06 | Avisos solo al personal autorizado: propuesta de peluquero asignado + administrador; cliente y otro peluquero no reciben datos de esa cita. |
+| CA41 | RF17 | Solo un administrador activo puede listar e invitar personal; un peluquero o visitante no obtiene acceso llamando directamente a la API o al RPC de provisión. |
+| CA42 | RF17 | La invitación no se envía sin la migración instalada. Una nueva agenda nace inactiva y una cuenta existente no cambia de rol por repetir el alta. |
+| CA43 | RF17–RF03 | Un administrador vinculado a una agenda activa conserva disponibilidad; añadir un nuevo perfil inactivo no bloquea las agendas existentes. |
 
 ## Conjunto mínimo para comprobar ventas
 

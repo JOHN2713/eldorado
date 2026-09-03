@@ -72,4 +72,35 @@ export async function guestDatabaseChecks({ owner, admin, barber, otherBarber, a
     assert.equal(Number(await value(owner,'select count(*) as value from public.customers')),count+1);
     assert.equal(await value(owner,'select count(*) as value from auth.users'),beforeAuth);
   });
+
+  await owner.query(readFileSync('supabase/migrations/202609030005_staff_management.sql','utf8'));
+  await check('Un administrador vinculado a una agenda sigue disponible como profesional',async()=>{
+    const dualUser=await value(owner,'select user_id::text as value from public.professionals where id=$1',[p2]);
+    await owner.query("update public.user_roles set role='admin' where user_id=$1",[dualUser]);
+    const publicData=await value(anon,'select public.get_bootstrap() as value');
+    assert.ok(publicData.professionals.some((professional)=>professional.id===p2));
+    assert.equal(await value(owner,"select private.slot_available($1,($2::date+'14:00'::time) at time zone 'America/Guayaquil',45,0) as value",[p2,tomorrow]),true);
+  });
+  await check('Solo el servidor provisiona personal solicitado por un administrador activo',async()=>{
+    const actorId=await value(admin,'select auth.uid()::text as value');
+    const barberId=await value(barber,'select auth.uid()::text as value');
+    const target=randomUUID();
+    await owner.query("insert into auth.users(id,email,raw_user_meta_data) values($1,'nuevo@ficticio.invalid','{}')",[target]);
+    await expectError(()=>value(server,"select public.provision_staff($1,$2,'barber','Nuevo ficticio',true,array[$3]::uuid[]) as value",[barberId,target,normal]),/NOT_AUTHORIZED/);
+    const result=await value(server,"select public.provision_staff($1,$2,'barber','Nuevo ficticio',true,array[$3]::uuid[]) as value",[actorId,target,normal]);
+    assert.equal(result.role,'barber');assert.ok(result.professional_id);
+    assert.equal(await value(owner,'select active as value from public.professionals where user_id=$1',[target]),false);
+    assert.equal(Number(await value(owner,'select count(*) as value from public.professional_services where professional_id=$1',[result.professional_id])),1);
+    assert.equal(Number(await value(owner,'select count(*) as value from public.professional_services where professional_id=$1',[p1])),4);
+    assert.equal(await value(server,'select public.staff_management_version() as value'),1);
+    await expectError(()=>value(server,"select public.provision_staff($1,$2,'admin','Duplicado',false,array[]::uuid[]) as value",[actorId,target]),/STAFF_EXISTS/);
+    await expectError(()=>value(admin,"select public.provision_staff($1,$2,'admin','No permitido',false,array[]::uuid[]) as value",[actorId,randomUUID()]),/permission denied/);
+    const settings=await value(admin,'select public.get_settings() as value');
+    await value(admin,'select public.update_settings($1,$2) as value',[settings.business,randomUUID()]);
+    assert.equal(await value(owner,'select booking_enabled as value from public.business_settings'),true);
+    const weekday=await value(owner,'select extract(dow from $1::date)::integer as value',[tomorrow]);
+    await value(admin,'select public.update_professional($1,$2,true,$3,$4) as value',[result.professional_id,'Nuevo ficticio',JSON.stringify([{weekday,start_time:'09:00',end_time:'21:00'}]),randomUUID()]);
+    await value(admin,'select public.update_settings($1,$2) as value',[settings.business,randomUUID()]);
+    assert.equal((await value(anon,'select public.get_bootstrap() as value')).professionals.length,3);
+  });
 }

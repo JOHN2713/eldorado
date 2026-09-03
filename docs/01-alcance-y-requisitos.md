@@ -15,7 +15,7 @@ Centralizar la agenda y el registro de ventas para conocer cuándo se atenderá 
 | Peluquero | Recibir recordatorios y bloquear descansos. Propuesta: gestionar su propia agenda y registrar llegada/atención; permiso de cobro por definir. |
 | Dueño / administrador | Lo anterior, más horarios, precios, usuarios, reportes y anulaciones. |
 
-Hay dos peluqueros con acceso para sus avisos y descansos, y dos administradores. No se presupone un recepcionista adicional. Un administrador no cuenta como peluquero sin confirmación expresa. No se habilitará autorregistro de administradores ni asignación de roles desde el perfil editable del usuario.
+El equipo inicial tiene dos agendas de peluquero y dos accesos administrativos; una de las cuentas administrativas también atiende como peluquero. Los administradores pueden invitar nuevos miembros desde el panel. Una cuenta administrativa solo agrega capacidad si tiene un perfil profesional activo, servicios y jornada. No se habilita autorregistro administrativo ni asignación de roles desde el perfil editable del usuario.
 
 ## MVP
 
@@ -37,6 +37,7 @@ Hay dos peluqueros con acceso para sus avisos y descansos, y dos administradores
 | RF14 | Descansos | Administrador y peluquero bloquean intervalos no disponibles; no sobrescribir citas existentes. |
 | RF15 | Cancelación y llegada | Autoservicio hasta 30 minutos antes; registrar llegada y anular por inasistencia tras tolerancia de 5 minutos. |
 | RF16 | Recomendación al reservar | Mostrar “Por favor, estar 5 minutos antes de su reserva.” en resumen y confirmación. |
+| RF17 | Usuarios del equipo | Administradores pueden invitar administradores o peluqueros; alta privada, sin autorregistro ni sobrescritura de roles existentes. |
 
 ## Criterios de operación propuestos
 

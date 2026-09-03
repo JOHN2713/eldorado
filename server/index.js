@@ -3,6 +3,7 @@ import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { createClient } from '@supabase/supabase-js';
 import { guestRouter } from './guest-api.js';
+import { createStaffService, staffRouter } from './staff-api.js';
 import { LOCAL_API_HOST, LOCAL_API_PORT } from '../config/local-development.js';
 
 const app = express();
@@ -27,6 +28,10 @@ app.use('/api/public', guestRouter({
   secret: serverKey,
   captchaSecret: process.env.TURNSTILE_SECRET_KEY,
   captchaSiteKey: process.env.TURNSTILE_SITE_KEY,
+}));
+app.use('/api/staff', staffRouter({
+  service: createStaffService(database, process.env.PUBLIC_APP_ORIGIN),
+  origin: process.env.PUBLIC_APP_ORIGIN,
 }));
 app.use('/api', (_req, res) => res.status(404).json({ error: 'NOT_FOUND' }));
 app.use(express.static(dist, { index: false, maxAge: '1h' }));

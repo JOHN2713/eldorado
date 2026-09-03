@@ -1,5 +1,7 @@
 # 04 — Modelo de datos y contratos
 
+**Actualización v0.3:** la migración 005 mantiene un rol principal por cuenta y permite que un administrador vinculado a `professionals` siga atendiendo. La función `provision_staff` crea rol, agenda inactiva y servicios de forma atómica, con auditoría y ejecución exclusiva del servidor. El panel administrativo envía invitaciones; los clientes siguen sin cuentas.
+
 **Actualización v0.2:** se añade `customers.email` y esquema privado `guest_access` / `guest_rate_limits` mediante migración 004. Los invitados no tienen `auth_user_id`; los contactos no se fusionan por correo/celular no verificado. La tabla de clientes sigue siendo necesaria para registrar la cita, sin crear cuentas Auth. Contrato vigente y acceso por enlace: [15](15-reservas-sin-cuenta.md).
 
 Modelo lógico propuesto para Supabase/PostgreSQL, v0.3 del 31 de agosto de 2026. No contiene migraciones ejecutadas. Incluye llegada, vencimiento, descansos y sincronización opcional Google. Datos confirmados y propuestas de bloques 45/50/50/60 minutos en la [ficha del negocio](11-ficha-del-negocio.md); revisar D03–D09, D11 y D16 antes de cerrar contratos.

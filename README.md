@@ -1,12 +1,12 @@
 # El Dorado Barbería — Agenda y ventas
 
 **Estado:** primera versión desplegada en Railway y conectada al proyecto Supabase del negocio. OAuth Google pendiente.<br>
-**Versión de aplicación:** 0.2.0 · **Versión documental:** 0.5 — 31 de agosto de 2026.<br>
+**Versión de aplicación:** 0.3.0 · **Versión documental:** 0.6 — 3 de septiembre de 2026.<br>
 **Repositorio:** [JOHN2713/eldorado](https://github.com/JOHN2713/eldorado), rama `main` publicada el 31 de agosto de 2026.
 
 Este proyecto permite reservar turnos, recordar citas, registrar servicios realizados con o sin reserva y consultar las ventas de la peluquería. La interfaz, el servidor y las operaciones SQL están implementados. El proyecto Supabase del negocio ya fue configurado y la aplicación está publicada en [Railway](https://eldorado-production-d510.up.railway.app). Se verificaron `/health` y la consulta pública de horarios; falta comprobar una reserva completa con CAPTCHA.
 
-**Nuevo flujo confirmado:** los clientes reservan sin cuenta, indicando nombre, celular y correo. Solo los dos administradores y los dos peluqueros usan Supabase Auth. La gestión del cliente es por enlace privado de cada reserva. Ver [15 — Reservas sin cuenta](docs/15-reservas-sin-cuenta.md), especialmente si ya se aplicaron las primeras migraciones.
+**Flujo confirmado:** los clientes reservan sin cuenta, indicando nombre, celular y correo. Solo el personal creado por un administrador usa Supabase Auth. La gestión del cliente es por enlace privado de cada reserva. El equipo inicial mantiene dos administradores y dos agendas de peluquero; una cuenta administradora también puede estar vinculada a una agenda profesional. Ver [15 — Reservas sin cuenta](docs/15-reservas-sin-cuenta.md).
 
 ## Ejecutar la primera versión
 
@@ -52,6 +52,7 @@ npm start
 - Preparación para subir posteriormente a un repositorio y desplegar.
 - Conexión opcional del cliente a Google Calendar para sincronizar su turno.
 - Descansos bloqueados por administrador o peluquero; cancelación hasta 30 minutos antes y anulación por ausencia tras 5 minutos de tolerancia.
+- Administración segura de usuarios del equipo: un administrador puede invitar administradores o peluqueros sin exponer la clave privada en el navegador.
 
 ## Datos recibidos el 31 de agosto
 
