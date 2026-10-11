@@ -4,6 +4,7 @@ dist/
 .env.*
 !.env.example
 !.env.server.example
+!.env.capacitor.example
 *.log
 .test-db/
 .test-artifacts/

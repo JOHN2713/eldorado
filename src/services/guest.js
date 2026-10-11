@@ -1,5 +1,7 @@
+import { apiUrl } from '../lib/api-url.js';
+
 export async function guestRequest(path, body) {
-  const response = await fetch(`/api/public/${path}`, { method: body ? 'POST' : 'GET', headers: body ? { 'Content-Type': 'application/json' } : {}, body: body ? JSON.stringify(body) : undefined, cache: 'no-store', credentials: 'omit', referrerPolicy: 'no-referrer', ...(path === 'config' ? { signal: AbortSignal.timeout(6000) } : {}) });
+  const response = await fetch(apiUrl(`/api/public/${path}`), { method: body ? 'POST' : 'GET', headers: body ? { 'Content-Type': 'application/json' } : {}, body: body ? JSON.stringify(body) : undefined, cache: 'no-store', credentials: 'omit', referrerPolicy: 'no-referrer', ...(path === 'config' ? { signal: AbortSignal.timeout(6000) } : {}) });
   let result;
   try { result = await response.json(); } catch { throw new Error('PUBLIC_BOOKING_UNAVAILABLE'); }
   if (!response.ok) throw new Error(result.error || 'PUBLIC_BOOKING_UNAVAILABLE');

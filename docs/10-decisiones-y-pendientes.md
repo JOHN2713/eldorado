@@ -67,6 +67,7 @@ Responsable de respuestas de negocio: dueño, coordinado por el usuario. Respons
 - Separación entre cita, atención y venta, con precios históricos e idempotencia.
 - Notificaciones persistidas en Supabase, con vigencia validada por el servidor, consulta desde la web abierta y Realtime opcional; sin scheduler ni proveedor de envío para este diseño.
 - Sí se requieren procesos independientes de servidor para inasistencias y Google Calendar: propuesta de Cron + función SQL para vencimientos y Edge Function para la API Google. El alcance de flotantes no cambia.
+- Empaquetar la aplicación web actual para Android con Capacitor 8.5.3 y `webDir: dist`; llamadas API móviles por HTTPS y origen Capacitor explícito, sin secretos en el cliente. La validación en dispositivo y la habilitación del backend siguen pendientes.
 - Bloquear máximos de duración 45/50/50/60 minutos; registrar llegada separada del inicio del corte y compartir control de concurrencia con descansos/citas.
 - Migraciones versionadas, pruebas de permisos/concurrencia/cobros y revisión responsive.
 
