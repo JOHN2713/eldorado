@@ -25,6 +25,7 @@ const database = serverKey && serverURL ? createClient(serverURL, serverKey, { a
 app.use('/api/public', guestRouter({
   rpc: database ? async (name, args) => { const { data, error } = await database.rpc(name, args); if (error) throw error; return data; } : null,
   origin: process.env.PUBLIC_APP_ORIGIN,
+  nativeOrigin: process.env.CAPACITOR_APP_ORIGIN,
   secret: serverKey,
   captchaSecret: process.env.TURNSTILE_SECRET_KEY,
   captchaSiteKey: process.env.TURNSTILE_SITE_KEY,
@@ -32,6 +33,7 @@ app.use('/api/public', guestRouter({
 app.use('/api/staff', staffRouter({
   service: createStaffService(database, process.env.PUBLIC_APP_ORIGIN),
   origin: process.env.PUBLIC_APP_ORIGIN,
+  nativeOrigin: process.env.CAPACITOR_APP_ORIGIN,
 }));
 app.use('/api', (_req, res) => res.status(404).json({ error: 'NOT_FOUND' }));
 app.use(express.static(dist, { index: false, maxAge: '1h' }));

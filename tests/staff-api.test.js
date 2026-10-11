@@ -14,9 +14,9 @@ test('Alta de personal valida correo, rol, nombre y servicios', () => {
   assert.throws(() => normalizeStaff({ email: 'ana@example.com', name: 'Ana', role: 'owner', serviceIds: [] }), /INVALID_INPUT/);
 });
 
-async function withAPI(service, action) {
+async function withAPI(service, action, nativeOrigin) {
   const app = express();
-  app.use('/api/staff', staffRouter({ service, origin: 'https://barberia.example/' }));
+  app.use('/api/staff', staffRouter({ service, origin: 'https://barberia.example/', nativeOrigin }));
   const server = app.listen(0, '127.0.0.1');
   await new Promise((resolve, reject) => { server.once('listening', resolve); server.once('error', reject); });
   try { await action(`http://127.0.0.1:${server.address().port}/api/staff`); }
@@ -48,11 +48,15 @@ test('Solo el origen configurado puede crear; el servidor decide el actor', asyn
   const body = { email: 'nuevo@example.com', name: 'Nuevo Barbero', role: 'barber', serviceIds: [serviceId], actorId: randomUUID() };
   await withAPI(service, async (base) => {
     assert.equal((await request(base, '/users', { method: 'POST', token: 'admin', origin: 'https://otro.example', body })).status, 403);
+    const preflight = await fetch(base + '/users', { method: 'OPTIONS', headers: { Origin: 'https://localhost', 'Access-Control-Request-Method': 'POST', 'Access-Control-Request-Headers': 'authorization,content-type' } });
+    assert.equal(preflight.status, 204);
+    assert.equal(preflight.headers.get('access-control-allow-origin'), 'https://localhost');
+    assert.equal((await request(base, '/users', { method: 'POST', token: 'admin', origin: 'https://localhost', body })).status, 201);
     const response = await request(base, '/users', { method: 'POST', token: 'admin', body });
     assert.equal(response.status, 201);
     assert.equal(received.actorId, actor);
     assert.ok(!('actorId' in received.input));
-  });
+  }, 'https://localhost');
 });
 
 test('Un acceso activo duplicado se informa como conflicto sin filtrar errores internos', async () => {

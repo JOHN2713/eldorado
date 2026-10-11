@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
 import { preview } from '../data/preview.js';
+import { apiUrl } from '../lib/api-url.js';
 
 const url = import.meta.env.VITE_SUPABASE_URL?.trim();
 const key = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY?.trim();
@@ -86,7 +87,7 @@ async function staffRequest(path, options = {}) {
   if (!supabase) throw new Error('Supabase no configurado');
   const { data: { session } } = await supabase.auth.getSession();
   if (!session) throw new Error('LOGIN_REQUIRED');
-  const response = await fetch(`/api/staff/${path}`, {
+  const response = await fetch(apiUrl(`/api/staff/${path}`), {
     ...options,
     headers: { Authorization: `Bearer ${session.access_token}`, ...(options.body ? { 'Content-Type': 'application/json' } : {}), ...options.headers },
   });

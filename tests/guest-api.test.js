@@ -46,6 +46,31 @@ test('Gateway normaliza la URL configurada al origen y rechaza URLs inválidas',
     assert.equal((await post(base, '/slots', { serviceId, date: '2030-01-01' })).status, 503);
   });
 });
+test('CORS de Capacitor requiere origen explícito y mantiene bloqueados otros orígenes', async () => {
+  const nativeOrigin = 'https://localhost';
+  const rpc = async (name) => name === 'guest_request_gate' ? true : [];
+  await withAPI({ ...options, nativeOrigin, rpc }, async (base) => {
+    const preflight = await fetch(base + '/slots', { method: 'OPTIONS', headers: { Origin: nativeOrigin, 'Access-Control-Request-Method': 'POST', 'Access-Control-Request-Headers': 'content-type' } });
+    assert.equal(preflight.status, 204);
+    assert.equal(preflight.headers.get('access-control-allow-origin'), nativeOrigin);
+    assert.equal(preflight.headers.get('access-control-allow-headers'), 'Authorization, Content-Type');
+    assert.equal((await post(base, '/slots', { serviceId: randomUUID(), date: '2030-01-01' }, nativeOrigin)).status, 200);
+    assert.equal((await post(base, '/slots', { serviceId: randomUUID(), date: '2030-01-01' }, 'https://otro.example')).status, 403);
+  });
+  await withAPI({ ...options, rpc }, async (base) => {
+    const preflight = await fetch(base + '/slots', { method: 'OPTIONS', headers: { Origin: nativeOrigin, 'Access-Control-Request-Method': 'POST' } });
+    assert.equal(preflight.status, 403);
+  });
+});
+test('Turnstile valida el hostname del origen web o nativo previamente permitido', async () => {
+  const nativeOrigin = 'https://localhost';
+  const hostnames = [];
+  await withAPI({ ...options, nativeOrigin, rpc: async (name) => name === 'guest_request_gate' ? true : { id: 'reserva-ficticia' }, verify: async ({ hostname }) => hostnames.push(hostname) }, async (base) => {
+    assert.equal((await post(base, '/bookings', payload())).status, 201);
+    assert.equal((await post(base, '/bookings', payload(), nativeOrigin)).status, 201);
+    assert.deepEqual(hostnames, ['barberia.example', 'localhost']);
+  });
+});
 test('Gateway solo transmite hash privado y contacto normalizado; no acepta precio o rol del navegador', async () => {
   let received;
   const input={...payload(),price:0,role:'admin'};

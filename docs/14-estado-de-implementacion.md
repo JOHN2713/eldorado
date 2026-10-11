@@ -44,6 +44,14 @@ La migración 005 está probada localmente y pendiente de ejecución en Supabase
 - No hay OAuth Calendar, cifrado de refresh tokens ni cola de sincronización implementados. Ver [12](12-google-calendar.md); `.ics` no satisface ese requisito.
 - El código está publicado en la rama `main` de GitHub y Railway despliega el dominio `eldorado-production-d510.up.railway.app`. Falta validar una reserva completa con CAPTCHA y la operación del personal.
 
+## Avance Android — 10 de octubre de 2026
+
+- Integrado Capacitor 8.5.3 con `com.eldorado.barberia`, nombre El Dorado y `webDir: dist`. El proyecto Android está en `android/` y el build de depuración produjo `android/app/build/outputs/apk/debug/app-debug.apk`.
+- Las APIs conservan rutas same-origin en web. En Android usan `VITE_API_BASE_URL`; `.env.capacitor.example` documenta el dominio HTTPS público y no incluye secretos. El servidor permite CORS solo para orígenes configurados y admite `https://localhost` mediante `CAPACITOR_APP_ORIGIN`.
+- Turnstile sigue siendo obligatorio; el servidor comprueba el hostname del origen previamente permitido. La configuración real de Turnstile debe aceptar `localhost` para validar reservas dentro del WebView.
+- Verificado: 27 pruebas JavaScript/HTTP aprobadas, `vite build`, `cap sync android` y `assembleDebug` con JDK 21. La plataforma Android SDK 36 se instaló durante la compilación.
+- Pendiente: desplegar la compatibilidad del backend y configurar `CAPACITOR_APP_ORIGIN` en Railway; habilitar `localhost` en Turnstile; reconstruir/sincronizar con la URL autorizada; instalar y probar en teléfono o emulador. `adb devices` no detectó dispositivos, por lo que no se validan todavía login, API real, navegación Atrás, recordatorios ni modo sin conexión. Esta fase no está terminada.
+
 ## Contrato de esta versión frente al diseño documental
 
 Los documentos 01–12 describen el alcance objetivo. Para ejecutar código, los contratos efectivos son las migraciones y `src/services/api.js` / `src/main.js`.

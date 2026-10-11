@@ -1,4 +1,5 @@
 import express from 'express';
+import { createOriginPolicy, normalizeOrigin } from './origin-policy.js';
 
 export class StaffError extends Error {
   constructor(code, status = 400) { super(code); this.status = status; }
@@ -6,13 +7,6 @@ export class StaffError extends Error {
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const uuidPattern = /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i;
-
-function normalizeOrigin(value) {
-  try {
-    const parsed = new URL(value);
-    return ['http:', 'https:'].includes(parsed.protocol) ? parsed.origin : '';
-  } catch { return ''; }
-}
 
 export function normalizeStaff(input = {}) {
   const email = typeof input.email === 'string' ? input.email.trim().toLowerCase() : '';
@@ -26,10 +20,12 @@ export function normalizeStaff(input = {}) {
   return { email, name, role, professional, serviceIds };
 }
 
-export function staffRouter({ service, origin }) {
+export function staffRouter({ service, origin, nativeOrigin }) {
   const router = express.Router();
   const allowedOrigin = normalizeOrigin(origin);
+  const originPolicy = createOriginPolicy([origin, nativeOrigin]);
   router.use((_req, res, next) => { res.set('Cache-Control', 'no-store'); next(); });
+  router.use(originPolicy.middleware);
   router.use(express.json({ limit: '8kb', strict: true }));
   router.use(async (req, _res, next) => {
     try {
@@ -38,7 +34,7 @@ export function staffRouter({ service, origin }) {
       if (!match) throw new StaffError('LOGIN_REQUIRED', 401);
       req.staffActor = await service.authenticate(match[1]);
       if (!req.staffActor) throw new StaffError('NOT_AUTHORIZED', 403);
-      if (req.method !== 'GET' && req.get('origin') !== allowedOrigin) throw new StaffError('NOT_AUTHORIZED', 403);
+      if (req.method !== 'GET' && !originPolicy.allows(req.get('origin'))) throw new StaffError('NOT_AUTHORIZED', 403);
       next();
     } catch (error) { next(error); }
   });
